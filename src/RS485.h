@@ -42,12 +42,12 @@
 
 class RS485Class : public Stream {
   public:
-    RS485Class(HardwareSerial& hwSerial, int txPin, int dePin, int rePin);
+    RS485Class(HardwareSerial& hwSerial, int rxPin, int txPin, int dePin, int rePin);
 
     virtual void begin(unsigned long baudrate);
-    virtual void begin(unsigned long baudrate, uint16_t config);
+    virtual void begin(unsigned long baudrate, uint32_t config);
     virtual void begin(unsigned long baudrate, int predelay, int postdelay);
-    virtual void begin(unsigned long baudrate, uint16_t config, int predelay, int postdelay);
+    virtual void begin(unsigned long baudrate, uint32_t config, int predelay, int postdelay);
     virtual void end();
     virtual int available();
     virtual int peek();
@@ -65,12 +65,13 @@ class RS485Class : public Stream {
     void sendBreak(unsigned int duration);
     void sendBreakMicroseconds(unsigned int duration);
 
-    void setPins(int txPin, int dePin, int rePin);
+    void setPins(int txPin, int rxPin, int dePin, int rePin);
 
     void setDelays(int predelay, int postdelay);
 
   private:
     HardwareSerial* _serial;
+    int _rxPin;
     int _txPin;
     int _dePin;
     int _rePin;
@@ -79,7 +80,7 @@ class RS485Class : public Stream {
 
     bool _transmisionBegun;
     unsigned long _baudrate;
-    uint16_t _config;
+    uint32_t _config;
 };
 
 extern RS485Class RS485;
